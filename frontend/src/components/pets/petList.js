@@ -10,7 +10,7 @@ const PetList = () => {
 
     useEffect(() => {
         async function getPets() {
-            let res = await TamagotchiApi.getPetss();
+            let res = await TamagotchiApi.getPets();
             setPet(res);
             setSearchResults(res); // Initialize searchResults with all companies
         }

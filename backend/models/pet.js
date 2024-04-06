@@ -18,7 +18,7 @@ class Pet {
     static async create({ userId, pokePetId }) {
         const duplicateCheck = await db.query(
             `SELECT userId, pokePetId
-             FROM pets
+             FROM userPet
              WHERE userId = $1 AND pokePetId = $2`,
             [userId, pokePetId],
         );
@@ -27,7 +27,7 @@ class Pet {
         throw new BadRequestError(`Pet already exists for user: ${userId}`);
     
         const result = await db.query(
-            `INSERT INTO pets (userId, pokePetId)
+            `INSERT INTO userPet (userId, pokePetId)
              VALUES ($1, $2)
              RETURNING userId, pokePetId`,
             [
@@ -48,7 +48,7 @@ class Pet {
     static async findAll(userId) {
         const petRes = await db.query(
             `SELECT userId, pokePetId
-             FROM pets
+             FROM userPet
              WHERE userId = $1`,
             [userId],
         );
@@ -66,7 +66,7 @@ class Pet {
     static async get(userId, pokePetId) {
         const petRes = await db.query(
             `SELECT userId, pokePetId
-             FROM pets
+             FROM userPet
              WHERE userId = $1 AND pokePetId = $2`,
             [userId, pokePetId],
         );
@@ -99,7 +99,7 @@ class Pet {
         const userIdVarIdx = "$" + (values.length + 1);
         const pokePetIdVarIdx = "$" + (values.length + 2);
     
-        const querySql = `UPDATE pets
+        const querySql = `UPDATE userPet
                           SET ${setCols}
                           WHERE userId = ${userIdVarIdx} AND pokePetId = ${pokePetIdVarIdx}
                           RETURNING userId, pokePetId`;
@@ -118,7 +118,7 @@ class Pet {
     static async remove(userId, pokePetId) {
         const result = await db.query(
             `DELETE
-             FROM pets
+             FROM userPet
              WHERE userId = $1 AND pokePetId = $2
              RETURNING userId, pokePetId`,
             [userId, pokePetId],

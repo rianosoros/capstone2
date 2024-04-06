@@ -7,6 +7,7 @@ import CaseCard from './cases/caseCard';
 import Login from './pages/login';
 import Profile from './pages/profile';
 import Register from './pages/register';
+import PokePetList from './pokePets/pokePetList';
 import Home from './pages/home';
 
 function PrivateRoute({ component: Component, isAuthenticated, ...rest }) {
@@ -41,6 +42,7 @@ function Routes({ login, register }) {
       {/* Private routes */}
       <PrivateRoute exact path="/pets"> <PetList /> </PrivateRoute>
       <PrivateRoute exact path="/pets/:id"> <PetDetail /> </PrivateRoute>
+      <PrivateRoute exact path="/pokePets"> <PokePetList /> </PrivateRoute>
       <PrivateRoute exact path="/cases"> <CaseList /> </PrivateRoute>
       <PrivateRoute exact path="/cases/:id"> <CaseCard /> </PrivateRoute>
       {/* Pass the username as a parameter to the profile route */}

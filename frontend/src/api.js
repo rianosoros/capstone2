@@ -39,7 +39,14 @@ class TamagotchiApi {
 
   // Individual API routes
 
-  //get the current user
+  //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table)
+  static async adoptPokePet(userId, pokePetId) {
+    let res = await this.request(`users/${userId}/adopt/${pokePetId}`
+    , {}, "post"); 
+    return res.pokePet;
+  }
+  
+  //get the current user by username
   static async getCurrentUser(username) {
     let res = await this.request(`users/${username}`);
     return res.user;
@@ -51,9 +58,33 @@ class TamagotchiApi {
     return res.pets;
   }
   //get all pets
-  static async getPets(name) {
-    let res = await this.request(`pets`, { name });
+  static async getPets() {  
+    let res = await this.request(`pets`);
     return res.pets;
+  }
+
+  //get pokePet by id
+  static async getPokePet(id) {
+    let res = await this.request(`pokePets/${id}`);
+    return res.pokePets;
+  }
+
+
+
+  //get all pokePets
+  static async getPokePets() {
+    let res = await this.request(`pokePets`);
+    return res.pokePets;
+  }
+
+  //search for a pokePet
+  static async searchPokePets(searchTerm) {
+    try {
+      const res = await this.request(`pokePets/search?searchTerm=${searchTerm}`);
+      return res.pokePets;
+    } catch (error) {
+      throw new Error(`Error searching for pokePets: ${error.message}`);
+    }
   }
 
   //get all cases

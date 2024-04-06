@@ -118,6 +118,7 @@ class User {
     const userRes = await db.query(
           `SELECT username,
                   email,
+                  id,
                   is_admin AS "isAdmin"
            FROM users
            WHERE username = $1`,

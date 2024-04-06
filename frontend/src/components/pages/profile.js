@@ -20,7 +20,7 @@ function Profile() {
                 setUser(res);
                 setApplications(res.applications);
                 setFormData({
-                    user: res.username,
+                    password: res.password,
                     email: res.email,
                 });
             } catch (error) {
@@ -45,6 +45,7 @@ function Profile() {
             let updatedUser = await TamagotchiApi.saveProfile(username, formData);
             setUser(updatedUser);
             setEditMode(false);
+            console.log("Profile updated successfully!", updatedUser);
         } catch (error) {
             console.error("Error updating profile:", error);
         }

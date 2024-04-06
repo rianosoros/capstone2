@@ -29,12 +29,16 @@ function App() {
 
   //if token exists, get current user
     async function getCurrentUser() {
+      console.debug("App getCurrentUser token", "token=", token);
       if (token) {
+        console.debug("App getCurrentUser if token", "token=", token);
         try {
           let { username } = jwt.decode(token);
         
           TamagotchiApi.token = token;
+          console.debug("App  api token", "token=", token);
           let currentUser = await TamagotchiApi.getCurrentUser(username);
+          console.debug("App getCurrentUser currentUser", currentUser);
           setCurrentUser(currentUser);
           setCaseIds(new Set(currentUser.cases));
         } catch (err) {

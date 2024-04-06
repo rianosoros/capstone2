@@ -20,6 +20,31 @@ router.post("/createPokePet", ensureAdmin, async function (req, res, next) {
   return res.status(201).json({ pokePet });
 });
 
+//search
+router.get('/search', async (req, res) => {
+  const searchTerm = req.query.searchTerm; 
+  try {
+    const searchResults = await PokePet.find(searchTerm); 
+    res.json({ pokePets: searchResults }); 
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+//adopt
+router.post("/:userId/adopt/:pokePetId", async function (req, res, next) {
+  const { userId, pokePetId } = req.params;
+  try {
+    const pokePet = await PokePet.adopt(userId, pokePetId);
+    return res.json({ pokePet });
+} catch (error) {
+    console.error('Error adopting pokePet:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+}
+
+});
+
+
 //get
 router.get("/", async function (req, res, next) {
   const pokePets = await PokePet.findAll();

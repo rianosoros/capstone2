@@ -40,20 +40,50 @@ class PokePet {
         return pokePet;
     }
 
-    /** Find all pokePets for a user.
-     *
-     * Returns [{ userId, pokePetId }, ...]
-     **/
-    static async findAll(userId) {
+    // find pokePets by search term
+    static async find(search) {
         const pokePetRes = await db.query(
-            `SELECT userId, pokePetId
-             FROM pokePets
-             WHERE userId = $1`,
-            [userId],
-        );
-    
-        return pokePetRes.rows;
+            `SELECT *
 
+             FROM pokePets
+             WHERE Name ILIKE $1
+             ORDER BY Name`,
+            [`%${search}%`],
+        );
+        return pokePetRes.rows;
+    }
+
+    /** Adopt a pokePet: update db, return updated pokePet.
+     *  Returns { userId, pokePetId }
+     * where pokePet is [{ userId, pokePetId }]
+     * 
+     * Throws NotFoundError if not found.
+     * */
+    static async adopt(userId, pokePetId) {
+        console.log('adopting pokePet', pokePetId, 'for user', userId);
+        const result = await db.query(
+            `INSERT INTO userPet (userId, pokePetId, name, image)
+            VALUES ($1, $2, (SELECT name FROM pokePets WHERE ID = $2), (SELECT image FROM pokePets WHERE ID = $2))
+            RETURNING userId, pokePetId`,
+            [userId, pokePetId],
+        );
+        const pokePet = result.rows[0];
+        if (!pokePet) throw new NotFoundError(`No pokePet: ${userId}, ${pokePetId}`);
+    
+        return pokePet;
+    }
+    
+    /** Find all pokePets
+     *
+        * Returns [{ Id, pokemonId }, ...]
+        * */
+    static async findAll() {
+        const pokePetRes = await db.query(
+            `SELECT *
+             FROM pokePets
+             ORDER BY Name`,
+        );
+        return pokePetRes.rows;
     }
 
     /** Given a userId and pokePetId, return data about pokePet.
