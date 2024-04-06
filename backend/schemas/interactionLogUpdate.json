@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "properties": {
+        "userId": {
+            "type": "integer"
+        },
+        "petId": {
+            "type": "integer"
+        },
+        "interactionType": {
+            "type": "string"
+        },
+        "effectOnHunger": {
+            "type": "integer"
+        },
+        "effectOnHappiness": {
+            "type": "integer"
+        },
+        "effectOnHealth": {
+            "type": "integer"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "default": "CURRENT_TIMESTAMP"
+        }
+    },
+    "required": [
+        "userId", 
+        "petId", 
+        "interactionType", 
+        "effectOnHunger", 
+        "effectOnHappiness", 
+        "effectOnHealth",
+        "timestamp"
+    ]
+}

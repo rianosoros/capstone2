@@ -1,0 +1,27 @@
+{
+    "type": "object",
+
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "pokemonId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "image": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "type": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        }
+    }
+
+}

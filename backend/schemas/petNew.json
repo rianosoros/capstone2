@@ -1,0 +1,46 @@
+{
+    "properties": {
+        "userId": {
+            "type": "integer",
+            "default": 0
+        },
+        "PokePetId": {
+            "type": "integer",
+            "default": 0
+        },
+        "Name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+        },
+        "Image": {
+            "type": "string"
+        },
+        "Hunger": {
+            "type": "integer",
+            "default": 50
+        },
+        "Happiness": {
+            "type": "integer",
+            "default": 50
+        },
+        "Health": {
+            "type": "integer",
+            "default": 100
+        },
+        "lastInteraction": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "required": [
+        "userId", 
+        "PokePetId", 
+        "Name", 
+        "Image", 
+        "Hunger", 
+        "Happiness", 
+        "Health", 
+        "lastInteraction"
+    ]
+}

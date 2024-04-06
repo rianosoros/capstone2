@@ -1,0 +1,56 @@
+.navbar {
+  background-color: white;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.125);
+}
+
+.nav-item {
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 0;
+  text-align: center;
+  border-bottom: 5px solid transparent;
+  box-sizing: border-box;
+}
+
+.navbar a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.navbar a.active {
+  color: #000000;
+  font-weight: bold;
+  border-bottom: 5px solid;
+  box-sizing: border-box;
+}
+
+.navbar a.active:hover {
+  color: #a315c0 !important;
+}
+
+.navbar a:hover {
+  text-decoration: none;
+  color: #a315c0;
+}
+
+.navbar a.active.navbar-brand {
+  border-bottom: none;
+}
+
+.navbar a:not(.navbar-brand):hover {
+  font-weight: bold;
+}
+
+/* Style the logout button */
+.logout-button {
+  background-color: rgb(117, 7, 180);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #370741;
+}
