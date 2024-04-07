@@ -2,48 +2,51 @@ import axios from "axios";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
-/** API Class.
- *
- * Static class tying together methods used to get/send to to the API.
- * There shouldn't be any frontend-specific stuff here, and there shouldn't
- * be any API-aware stuff elsewhere in the frontend.
- *
- */
-
 class TamagotchiApi {
-  // the token for interactive with the API will be stored here.
-  static token;
-
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
 
-    //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${TamagotchiApi.token}` };
-    const params = (method === "get")
-        ? data
-        : {};
+    const params = method === "get" ? data : {};
 
     try {
-      return (await axios({ url, method, data, params, headers })).data;
+      const response = await axios({ url, method, data, params, headers });
+      console.debug("API Response:", response.data); // Log the response data
+      return response.data;
     } catch (err) {
       console.error("API Error:", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
-  }
+}
+
 
 
 
   // Individual API routes
 
   //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table) send the data to the backend
-  static async adoptPokePet(userId, pokePetId, data) {
-    console.log('Adopting pokePet:', pokePetId, 'for user:', userId);
-    let res = await this.request(`adopt/${userId}/${pokePetId}`, data, "post");
-    return res.pokePets;
-  }
+  static async adoptPokePet(data) {
+    console.log('31| API attempting to adopt pokePet:', data);
+    
+
+    try {
+      let res = await this.request(`pokePets/adopt`, data, "post");
+      console.log('33| API response after adopting pokePet:', res);
+      
+      if (res && res.pokePet) {
+        console.log('36| API adopted pokePet:', res.pokePet);
+        return res.pokePet;
+      } else {
+        console.error('39| API response does not contain pokePet:', res);
+        return null; // Handle the case when pokePet is not returned in the response
+      }
+    } catch (error) {
+      console.error('43| API error while adopting pokePet:', error);
+      throw error; // Rethrow the error to handle it in the calling function
+    }
+  }  
 
 
   //get the current user by username
@@ -64,7 +67,7 @@ class TamagotchiApi {
     return res.pokePets;
   }
 
-  //get userPets by username
+  //get userPets by user
   static async getUserPetsById(userId, userPetId) {
     let res = await this.request(`${userId}/${userPetId}`);
     return res.userPets;

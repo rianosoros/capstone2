@@ -73,10 +73,10 @@ class Pet {
     
         const pet = petRes.rows[0];
     
-        if (!pet) throw new NotFoundError(`No pet: ${pokePetId}`);
-    
+        if (!pet) throw new NotFoundError(`No pet found`);
+        
         return pet;
-    }
+    }    
     
     // find userPet by userId
     static async findUserPetByUserId(userId) {

@@ -14,6 +14,7 @@ const userRoutes = require("./routes/users");
 const petRoutes = require("./routes/userPets");
 const pokePetRoutes = require("./routes/pokePets");
 const interactionRoutes = require("./routes/interactions");
+const swaggerDocs = require('./swagger.js');
 
 const morgan = require("morgan");
 
@@ -23,7 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);

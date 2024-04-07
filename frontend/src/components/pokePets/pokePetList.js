@@ -33,15 +33,17 @@ const PokePetList = () => {
   //handle api call to adopt a pokePet. send data for userPet table
   const handleAdopt = async (pokePet) => {
     const username = localStorage.getItem('username');
-    console.log(username, 'Adopting pokePet:', pokePet);
-     localStorage.setItem('pokePetId', pokePet.id);
+    // console.log('36| petListHandleAdopt:', username, 'Adopting pokePet:', pokePet);
     try {
       const currentUser = await TamagotchiApi.getCurrentUser(username);
       const userId = currentUser.id;
       const pokePetId = pokePet.id;
-      console.log('pokePet.id:', pokePetId);
-      const adoptData = { userId: currentUser.id, pokePetId: pokePet.id, image: pokePet.image, name: pokePet.name};
-      const adoptedPokePet = await TamagotchiApi.adoptPokePet(userId, pokePetId, adoptData);
+      // console.log('41| petListHandleAdopt pokePet.id:', pokePetId);
+      const adoptData = { userid: userId, pokepetid: pokePetId, image: pokePet.image, name: pokePet.name};
+      console.log('43| petListHandleAdopt adoptData:', adoptData);
+      //turn adoptData into json
+      //const jsonBody = JSON.stringify(adoptData);
+      const adoptedPokePet = await TamagotchiApi.adoptPokePet(adoptData);
       setPokePets((prevPokePets) => [...prevPokePets, adoptedPokePet]);
     } catch (error) {
       console.error('Error adopting pokePet:', error);
@@ -59,10 +61,11 @@ return (
         pokePetSearchResults.map((pokePet) => (
           <Card key={pokePet.id} className="my-3">
             <CardBody>
+              {/* fix link below */}
               <Link to={`/pokePets/${pokePet.handle}`} className="text-decoration-none">
                 <CardTitle tag="h5">{pokePet.name}</CardTitle>
                 <img src={pokePet.image} alt={pokePet.name} />
-                <CardText tag="h5">{pokePet.type}</CardText>
+                <CardText>{pokePet.type}</CardText>
               </Link>
               <Button onClick={() => handleAdopt(pokePet)}>Adopt</Button>
             </CardBody>

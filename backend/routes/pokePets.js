@@ -1,10 +1,12 @@
 const express = require("express");
+const jsonschema = require("jsonschema");
 const { BadRequestError } = require("../expressError");
 const { ensureAdmin } = require("../middleware/auth");
 const PokePet = require("../models/pokePet");
 
 const pokePetNewSchema = require("../schemas/pokePetNew.json");
 const pokePetUpdateSchema = require("../schemas/pokePetUpdate.json");
+const petNewSchema = require("../schemas/petNew.json");
 
 const router = new express.Router();
 
@@ -32,19 +34,35 @@ router.get('/search', async (req, res) => {
 });
 
 // adopt
-router.post('/adopt/:userId/:pokePetId', async (req, res) => {
-  const { userId, pokePetId } = req.params;
-  console.log('req.params:', req.params);
-  console.log('req.body:', req.body);
+router.post('/adopt', ensureAdmin, async function (req, res, next) {
+  console.log('b routes 38| request.body:', req.body);
+  const validator = jsonschema.validate(req.body, petNewSchema);
+  if (!validator.valid) {
+     const errs = validator.errors.map(e => e.stack);
+     throw new BadRequestError(errs);
+  }
+  console.log('b routes 37| request.body:', req.body);
 
   try {
-    const pokePet = await PokePet.adopt(userId, pokePetId);
-    return res.json({ pokePet });
+    const pokePet = await PokePet.adopt(req.body);
+    console.log('b route 46| adopt post pokePet:', res.pokePet);
+    return res.status(201).json({ pokePet });
   } catch (error) {
     console.error('Error adopting pokePet:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// router.post("/createUserPet", ensureAdmin, async function (req, res, next) {
+//   const validator = jsonschema.validate(req.body, userPetNewSchema);
+//   if (!validator.valid) {
+//     const errs = validator.errors.map(e => e.stack);
+//     throw new BadRequestError(errs);
+//   }
+
+//   const userPet = await UserPet.create(req.body);
+//   return res.status(201).json({ userPet });
+// });
 
 //get
 router.get("/", async function (req, res, next) {

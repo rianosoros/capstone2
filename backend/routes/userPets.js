@@ -31,21 +31,32 @@ router.get("/", async function (req, res, next) {
 
 //get by userid
 router.get("/:username", async function (req, res, next) {
-  const userPets = await UserPet.findUserPetByUserId(req.params.username);
-  return res.json({ userPets });
+  try {
+    const userPets = await UserPet.findUserPetByUserId(req.params.username);
+    return res.json({ userPets });
+  } catch (err) {
+    return next(err); // Pass the error to the error handling middleware
+  }
 });
-
 
 //get by username and petId
 router.get("/:username/:userPetId", async function (req, res, next) {
-  const userPet = await UserPet.get(req.params.username, req.params.usePetId);
-  return res.json({ userPet });
+  try {
+    const userPet = await UserPet.get(req.params.username, req.params.userPetId);
+    return res.json({ userPet });
+  } catch (err) {
+    return next(err); // Pass the error to the error handling middleware
+  }
 });
 
 //get by id
-router.get("/:id", async function (req, res, next) {
-  const userPet = await UserPet.get(req.params.id);
-  return res.json({ userPet });
+router.get("/id/:id", async function (req, res, next) {
+  try {
+    const userPet = await UserPet.get(req.params.id);
+    return res.json({ userPet });
+  } catch (err) {
+    return next(err); // Pass the error to the error handling middleware
+  }
 });
 
 //patch by id
