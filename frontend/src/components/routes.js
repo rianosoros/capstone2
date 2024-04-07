@@ -2,8 +2,6 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PetList from './pets/petList';
 import PetDetail from './pets/petDetail';
-import CaseList from './cases/caseList';
-import CaseCard from './cases/caseCard';
 import Login from './pages/login';
 import Profile from './pages/profile';
 import Register from './pages/register';
@@ -40,11 +38,9 @@ function Routes({ login, register }) {
       </Route>
 
       {/* Private routes */}
-      <PrivateRoute exact path="/pets"> <PetList /> </PrivateRoute>
-      <PrivateRoute exact path="/pets/:id"> <PetDetail /> </PrivateRoute>
+      <PrivateRoute exact path="/pet"> <PetDetail /> </PrivateRoute>
+      <PrivateRoute exact path="/pet/:username"> <PetList /> </PrivateRoute>
       <PrivateRoute exact path="/pokePets"> <PokePetList /> </PrivateRoute>
-      <PrivateRoute exact path="/cases"> <CaseList /> </PrivateRoute>
-      <PrivateRoute exact path="/cases/:id"> <CaseCard /> </PrivateRoute>
       {/* Pass the username as a parameter to the profile route */}
       <PrivateRoute exact path="/profile/:username"> <Profile /> </PrivateRoute>
 

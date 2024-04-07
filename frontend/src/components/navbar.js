@@ -23,7 +23,6 @@ function NavBar() {
     localStorage.removeItem("token");
     localStorage.removeItem("tamagotchi-token");
     localStorage.removeItem("username");
-    localStorage.removeItem("appliedCases");
     setIsLoggedIn(false);
     setCurrentUser("");
     // Redirect to the home page after logout
@@ -39,8 +38,7 @@ function NavBar() {
         <Nav className="ml-auto">
           {isLoggedIn ? (
             <>
-              <NavLink to="/pets" className="nav-link">Owned Pets</NavLink>
-              <NavLink to="/case" className="nav-link">Cases</NavLink>
+              <NavLink to={`/pet/${currentUser}`} className="nav-link">Owned Pets</NavLink>
               <NavLink to="/pokePets" className="nav-link">Poke Pets</NavLink>
               {/* Use currentUser state to generate the profile link */}
               <NavLink to={`/profile/${currentUser}`} className="nav-link">Profile</NavLink>

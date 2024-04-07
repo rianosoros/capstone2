@@ -38,13 +38,14 @@ class TamagotchiApi {
 
   // Individual API routes
 
-  //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table)
-  static async adoptPokePet(userId, pokePetId) {
-    let res = await this.request(`/adopt/${userId}/${pokePetId}`
-    , {}, "post"); 
-    return res.pokePet;
+  //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table) send the data to the backend
+  static async adoptPokePet(userId, pokePetId, data) {
+    console.log('Adopting pokePet:', pokePetId, 'for user:', userId);
+    let res = await this.request(`adopt/${userId}/${pokePetId}`, data, "post");
+    return res.pokePets;
   }
-  
+
+
   //get the current user by username
   static async getCurrentUser(username) {
     let res = await this.request(`users/${username}`);
@@ -53,12 +54,7 @@ class TamagotchiApi {
 
   //get pet by id
   static async getPet(id) {
-    let res = await this.request(`pets/${id}`);
-    return res.pets;
-  }
-  //get all pets
-  static async getPets() {  
-    let res = await this.request(`pets`);
+    let res = await this.request(`pet/${id}`);
     return res.pets;
   }
 
@@ -68,7 +64,17 @@ class TamagotchiApi {
     return res.pokePets;
   }
 
-
+  //get userPets by username
+  static async getUserPetsById(userId, userPetId) {
+    let res = await this.request(`${userId}/${userPetId}`);
+    return res.userPets;
+  }
+  
+  //get a pet by usename
+  static async getUserPets(username) {
+    let res = await this.request(`pet/${username}`);
+    return res.pets;
+  }
 
   //get all pokePets
   static async getPokePets() {
@@ -84,18 +90,6 @@ class TamagotchiApi {
     } catch (error) {
       throw new Error(`Error searching for pokePets: ${error.message}`);
     }
-  }
-
-  //get all cases
-  static async getCases(id) {
-    let res = await this.request(`cases`, { id });
-    return res.cases;
-  }
-
-  //apply case
-  static async apply(username, id) {
-    console.log('Username:', username);
-    await this.request(`users/${username}/cases/${id}`, {}, "post");
   }
 
   //login

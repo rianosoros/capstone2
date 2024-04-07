@@ -77,6 +77,18 @@ class Pet {
     
         return pet;
     }
+    
+    // find userPet by userId
+    static async findUserPetByUserId(userId) {
+        const petRes = await db.query(
+            `SELECT *
+             FROM pokePets
+             WHERE userId = $1
+             ORDER BY Name`,
+            [userId],
+        );
+        return petRes.rows;
+    }
 
     /** Update pet data with `data`.
      *

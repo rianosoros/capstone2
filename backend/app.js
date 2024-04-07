@@ -4,6 +4,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const swaggerUi = require('swagger-ui-express');
 
 const { NotFoundError } = require("./expressError");
 
@@ -14,7 +15,6 @@ const petRoutes = require("./routes/userPets");
 const pokePetRoutes = require("./routes/pokePets");
 const interactionRoutes = require("./routes/interactions");
 
-
 const morgan = require("morgan");
 
 const app = express();
@@ -23,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup());
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);

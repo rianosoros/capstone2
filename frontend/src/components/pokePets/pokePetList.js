@@ -7,7 +7,6 @@ import PokePetSearch from './pokePetSearch';
 const PokePetList = () => {
   const [pokePets, setPokePets] = useState([]);
   const [pokePetSearchResults, setPokePetSearchResults] = useState([]);
-  const username = localStorage.getItem('username');
 
   useEffect(() => {
     async function getPokePets() {
@@ -31,20 +30,27 @@ const PokePetList = () => {
     }
   };
 
+  //handle api call to adopt a pokePet. send data for userPet table
   const handleAdopt = async (pokePet) => {
     const username = localStorage.getItem('username');
+    console.log(username, 'Adopting pokePet:', pokePet);
+     localStorage.setItem('pokePetId', pokePet.id);
     try {
-      const currentUser = await TamagotchiApi.getCurrentUser();
+      const currentUser = await TamagotchiApi.getCurrentUser(username);
       const userId = currentUser.id;
-      const adoptedPokePet = await TamagotchiApi.adoptPokePet(userId, pokePet);
+      const pokePetId = pokePet.id;
+      console.log('pokePet.id:', pokePetId);
+      const adoptData = { userId: currentUser.id, pokePetId: pokePet.id, image: pokePet.image, name: pokePet.name};
+      const adoptedPokePet = await TamagotchiApi.adoptPokePet(userId, pokePetId, adoptData);
       setPokePets((prevPokePets) => [...prevPokePets, adoptedPokePet]);
     } catch (error) {
       console.error('Error adopting pokePet:', error);
     }
   };
 
-  return (
-    <Container>
+
+return (
+  <Container>
       <h1 className="my-4">PokePets</h1>
       <Button href="/">Back</Button>
       <PokePetSearch onSearch={handleSearch} />

@@ -24,23 +24,6 @@ function PetDetail() {
         getPet();
     }, [handle]);
 
-    const handleApply = async (caseId) => {
-        // Logic to handle case application
-        console.log('Applying to case:', caseId);
-        try {
-            await TamagotchiApi.applyToCase(caseId);
-            setPet(pet.map(j => {
-                if (j.id === caseId) {
-                    return { ...j, state: 'applied' };
-                }
-                return j;
-            }));
-        }
-        catch (error) {
-            console.error('Error applying to case:', error);
-        }
-    }
-
     return (
         <Container>
             {isLoading ? (
@@ -51,9 +34,7 @@ function PetDetail() {
                     <Button href="/pet"> Back </Button>
                     <Card className="my-3">   
                         <CardBody>
-                            {pet.case.map(petCase => (
-                                <PetCard key={petCase.id} case={petCase} handleApply={handleApply} /> 
-                            ))}
+                            <PetCard pet={pet} />
                         </CardBody>
                     </Card>
                 </>

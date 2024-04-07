@@ -13,7 +13,6 @@ const UserContext = React.createContext();
 
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
-  const [caseId, setCaseIds] = useState(new Set([]));
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
 
@@ -40,7 +39,6 @@ function App() {
           let currentUser = await TamagotchiApi.getCurrentUser(username);
           console.debug("App getCurrentUser currentUser", currentUser);
           setCurrentUser(currentUser);
-          setCaseIds(new Set(currentUser.cases));
         } catch (err) {
           console.error("App loadUserInfo: problem loading", err);
           setCurrentUser(null);
@@ -84,23 +82,13 @@ function App() {
     }
   }
 
-//check if case has been applied
-  function hasAppliedCase(id) {
-    return caseId.has(id);
-  }
-
-  function applyCase(id) {
-    if (hasAppliedCase(id)) return;
-    TamagotchiApi.applyCase(currentUser.username, id);
-    setCaseIds(new Set([...caseId, id]));
-  }
 
   if (!infoLoaded) return <div>Loading...</div>;
 
   return (
       <BrowserRouter>
         <UserContext.Provider
-            value={{ currentUser, setCurrentUser, hasAppliedCase: hasAppliedCase, applyCase: applyCase }}>
+            value={{ currentUser, setCurrentUser }}>
           <div className="App">
             <Navigation logout={logout} />
             <Routes login={login} register={register} />

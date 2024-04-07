@@ -29,6 +29,19 @@ router.get("/", async function (req, res, next) {
   return res.json({ userPets });
 });
 
+//get by userid
+router.get("/:username", async function (req, res, next) {
+  const userPets = await UserPet.findUserPetByUserId(req.params.username);
+  return res.json({ userPets });
+});
+
+
+//get by username and petId
+router.get("/:username/:userPetId", async function (req, res, next) {
+  const userPet = await UserPet.get(req.params.username, req.params.usePetId);
+  return res.json({ userPet });
+});
+
 //get by id
 router.get("/:id", async function (req, res, next) {
   const userPet = await UserPet.get(req.params.id);

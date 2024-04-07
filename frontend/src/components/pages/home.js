@@ -25,7 +25,10 @@ function Home() {
                                 Profile
                             </Button>
                             <Button tag={Link} to={`/pets/${currentUser}`} color="primary" className="font-weight-bold">
-                                Pets
+                                My Pets
+                            </Button>
+                            <Button tag={Link} to={`/pokePets`} color="primary" className="font-weight-bold ml-3">
+                                PokePets
                             </Button>
                         </div>
                     ) : (

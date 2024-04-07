@@ -24,23 +24,6 @@ function PokePetDetail() {
         getPokePet();
     }, [handle]);
 
-    const handleApply = async (caseId) => {
-        // Logic to handle case application
-        console.log('Applying to case:', caseId);
-        try {
-            await TamagotchiApi.applyToCase(caseId);
-            setPokePet(pokePet.map(j => {
-                if (j.id === caseId) {
-                    return { ...j, state: 'applied' };
-                }
-                return j;
-            }));
-        }
-        catch (error) {
-            console.error('Error applying to case:', error);
-        }
-    }
-
     return (
         <Container>
             {isLoading ? (
@@ -51,9 +34,7 @@ function PokePetDetail() {
                     <Button href="/pokePet"> Back </Button>
                     <Card className="my-3">   
                         <CardBody>
-                            {pokePet.case.map(petCase => (
-                                <PokePetCard key={petCase.id} case={petCase} handleApply={handleApply} /> 
-                            ))}
+                            <PokePetCard pokePet={pokePet} />
                         </CardBody>
                     </Card>
                 </>
