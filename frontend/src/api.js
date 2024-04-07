@@ -34,14 +34,13 @@ class TamagotchiApi {
     }
   }
 
-  
 
 
   // Individual API routes
 
   //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table)
   static async adoptPokePet(userId, pokePetId) {
-    let res = await this.request(`users/${userId}/adopt/${pokePetId}`
+    let res = await this.request(`/adopt/${userId}/${pokePetId}`
     , {}, "post"); 
     return res.pokePet;
   }

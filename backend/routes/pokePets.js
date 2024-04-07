@@ -31,17 +31,16 @@ router.get('/search', async (req, res) => {
   }
 });
 
-//adopt
-router.post("/:userId/adopt/:pokePetId", async function (req, res, next) {
+// adopt
+router.post('/adopt/:userId/:pokePetId', async function (req, res, next) {
   const { userId, pokePetId } = req.params;
   try {
-    const pokePet = await PokePet.adopt(userId, pokePetId);
-    return res.json({ pokePet });
-} catch (error) {
+    const adoptedPokePet = await PokePet.adopt(userId, pokePetId);
+    return res.json({ adoptedPokePet });
+  } catch (error) {
     console.error('Error adopting pokePet:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
-}
-
+  }
 });
 
 

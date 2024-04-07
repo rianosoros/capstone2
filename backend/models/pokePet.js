@@ -53,25 +53,24 @@ class PokePet {
         return pokePetRes.rows;
     }
 
-    /** Adopt a pokePet: update db, return updated pokePet.
-     *  Returns { userId, pokePetId }
-     * where pokePet is [{ userId, pokePetId }]
-     * 
-     * Throws NotFoundError if not found.
-     * */
-    static async adopt(userId, pokePetId) {
+        // Adopt a pokePet: update db, return updated pokePet.
+        // Returns { userId, pokePetId, name, image } 
+        // where pokePet is [{ userId, pokePetId, name, image }] 
+        // 
+        // Throws NotFoundError if not found. 
+        // 
+        static async adopt(userId, pokePetId) {
         console.log('adopting pokePet', pokePetId, 'for user', userId);
         const result = await db.query(
-            `INSERT INTO userPet (userId, pokePetId, name, image)
-            VALUES ($1, $2, (SELECT name FROM pokePets WHERE ID = $2), (SELECT image FROM pokePets WHERE ID = $2))
-            RETURNING userId, pokePetId`,
-            [userId, pokePetId],
+        `INSERT INTO userPet (userId, pokePetId, name, image)
+            SELECT $1, $2, name, image FROM pokePets WHERE id = $2
+            RETURNING userId, pokePetId, name, image;`,
+        [userId, pokePetId],
         );
         const pokePet = result.rows[0];
         if (!pokePet) throw new NotFoundError(`No pokePet: ${userId}, ${pokePetId}`);
-    
         return pokePet;
-    }
+        }
     
     /** Find all pokePets
      *
