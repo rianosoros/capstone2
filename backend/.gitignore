@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+swagger-ui-dist
+swagger.yaml
 
 
 # testing
