@@ -5,7 +5,7 @@ INSERT INTO users (username, password, email, is_admin)
 VALUES ('rian',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'rian@email.com',
-        FALSE),
+        TRUE),
        ('testadmin',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'supreme@ruler.com',
@@ -59,5 +59,5 @@ VALUES ('Bulbasaur', '1', 'https://raw.githubusercontent.com/PokeAPI/sprites/mas
         ('Ditto', '132', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/132.gif', 'Normal'),
         ('Gengar', '94', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/94.gif', 'Ghost');
 
--- 
+
        

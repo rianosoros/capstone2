@@ -35,7 +35,6 @@ const PetList = () => {
                     <CardBody>
                         <CardTitle tag="h5">{pet.name}</CardTitle>
                         <img src={pet.image} alt={pet.name} />
-                        {/* Update Link to include userId */}
                         {userId && (
                             <Link to={`/pet/${userId}/${pet.id}`}>
                                 <Button color="primary">View Details</Button>

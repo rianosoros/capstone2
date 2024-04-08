@@ -14,13 +14,7 @@ const { BCRYPT_WORK_FACTOR } = require("../config.js");
 /** Related functions for users. */
 
 class User {
-  /** authenticate user with username, password.
-   *
-   * Returns { username, email, is_admin }
-   *
-   * Throws UnauthorizedError is user not found or wrong password.
-   **/
-
+  // authenticate user with username, password.
   static async authenticate(username, password) {
     // try to find the user first
     const result = await db.query(
@@ -47,13 +41,7 @@ class User {
     throw new UnauthorizedError("Invalid username/password");
   }
 
-  /** Register user with data.
-   *
-   * Returns { username, email, isAdmin }
-   *
-   * Throws BadRequestError on duplicates.
-   **/
-
+  // Register user with data.
   static async register(
       { username, password, email, isAdmin }) {
     const duplicateCheck = await db.query(
@@ -90,11 +78,7 @@ class User {
     return user;
   }
 
-  /** Find all users.
-   *
-   * Returns [{ username, email, is_admin }, ...]
-   **/
-
+  // Find all users.
   static async findAll() {
     const result = await db.query(
           `SELECT username,
@@ -107,13 +91,7 @@ class User {
     return result.rows;
   }
 
-  /** Given a username, return data about user.
-   *
-   * Returns { username, is_admin, email }
-   *
-   * Throws NotFoundError if user not found.
-   **/
-
+  // Given a username, return data about user.
   static async get(username) {
     const userRes = await db.query(
           `SELECT username,
@@ -133,23 +111,7 @@ class User {
   }
 
 
-  /** Update user data with `data`.
-   *
-   * This is a "partial update" --- it's fine if data doesn't contain
-   * all the fields; this only changes provided ones.
-   *
-   * Data can include:
-   *   { password, email, isAdmin }
-   *
-   * Returns { username, email, isAdmin }
-   *
-   * Throws NotFoundError if not found.
-   *
-   * WARNING: this function can set a new password or make a user an admin.
-   * Callers of this function must be certain they have validated inputs to this
-   * or a serious security risks are opened.
-   */
-
+  // Update user data with `data`.
   static async update(username, data) {
     if (data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
@@ -180,7 +142,6 @@ class User {
   }
 
   /** Delete given user from database; returns undefined. */
-
   static async remove(username) {
     let result = await db.query(
           `DELETE

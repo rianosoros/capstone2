@@ -26,21 +26,19 @@ class TamagotchiApi {
 
   //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table) send the data to the backend
   static async adoptPokePet(data) {
-    console.log('29| API attempting to adopt pokePet:', data);
-    
     try {
       let res = await this.request(`pokePets/adopt`, data, "post");
-      console.log('33| API response after adopting pokePet:', res);
+      console.log('API response after adopting pokePet:', res);
       
       if (res && res.pokePet) {
-        console.log('36| API adopted pokePet:', res.pokePet);
+        console.log('API adopted pokePet:', res.pokePet);
         return res.pokePet;
       } else {
-        console.error('39| API response does not contain pokePet:', res);
+        console.error('API response does not contain pokePet:', res);
         return null; // Handle the case when pokePet is not returned in the response
       }
     } catch (error) {
-      console.error('43| API error while adopting pokePet:', error);
+      console.error('API error while adopting pokePet:', error);
       throw error; // Rethrow the error to handle it in the calling function
     }
   }  
@@ -55,35 +53,42 @@ class TamagotchiApi {
   static async getPetsByUserId(userId) {
     try {
         const res = await this.request(`pets/${userId}`);
-        //console.log('Response:', res); // Log the response to inspect its structure
-        return res; // Return the response data directly
+        return res;
     } catch (error) {
         console.error('API Error:', error);
         throw error;
     }
   }
 
-  //getPetDetails
+  //get pet details
   static async getPetDetails(petId) {
-    console.log('68| API getPetDetails petId:', petId);
-  
     try {
         const res = await this.request(`pet/${petId}`);
-        console.log('api 71| getPetDetails Response:', res); // Log the response to inspect its structure
-        return res; // Return the response data directly
+        return res;
     } catch (error) {
         console.error('API Error:', error);
         throw error;
     }
   }
 
-  //get pet by id
+  //interact with pet
+  static async interactWithPet(petId, interactionType) {
+    try {
+      const res = await this.request(`pet/${petId}/interact`, { interactionType }, "post");
+      return res; 
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
+  }
+
+  //get a userpet by id
   static async getPet(id) {
     let res = await this.request(`pet/${id}`);
     return res.pets;
   }
 
-  //get pokePet by id
+  //get a pokePet by id
   static async getPokePet(id) {
     let res = await this.request(`pokePets/${id}`);
     return res.pokePets;
@@ -128,14 +133,5 @@ class TamagotchiApi {
   }
 }
 
-// for now, put token ("testuser" / "password" on class)
-TamagotchiApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-    "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-    "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
-
   export default TamagotchiApi;
   
-  
-
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0.FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc

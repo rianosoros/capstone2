@@ -7,14 +7,7 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 /** Related functions for pokePets. */
 
 class PokePet {
-    /** Create a pokePet (from data), update db, return new pokePet data.
-     *
-     * data should be { userId, pokePetId }
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws BadRequestError if pokePet already exists in database.
-     **/
+    // Create a pokePet (from data), update db, return new pokePet data.
     static async create({ userId, pokePetId }) {
         const duplicateCheck = await db.query(
             `SELECT userId, pokePetId
@@ -53,8 +46,6 @@ class PokePet {
     }
 
     // Adopt a pokePet: update db, return updated pokePet.
-    // Returns { userId, pokePetId, name, image }
-    // Throws NotFoundError if not found.
     static async adopt(data) {
         console.log('M 59| adopt data:', data);
         try {
@@ -73,10 +64,7 @@ class PokePet {
         }
     }
   
-    /** Find all pokePets
-     *
-        * Returns [{ Id, pokemonId }, ...]
-        * */
+    // Find all pokePets
     static async findAll() {
         const pokePetRes = await db.query(
             `SELECT *
@@ -88,13 +76,7 @@ class PokePet {
 
     
 
-    /** Given a userId and pokePetId, return data about pokePet.
-     *
-     * Returns { userId, pokePetId }
-     *   where pokePet is [{ userId, pokePetId }]
-     *
-     * Throws NotFoundError if not found.
-     **/
+    // Given a userId and pokePetId, return data about pokePet.
     static async get(userId, pokePetId) {
         const pokePetRes = await db.query(
             `SELECT userId, pokePetId
@@ -110,17 +92,7 @@ class PokePet {
         return pokePet;
     }
 
-    /** Update pokePet data with `data`.
-     *  
-     * This is a "partial update" --- it only changes provided fields.
-     * 
-     * 
-     * data can include: { userId, pokePetId }
-     * 
-     * Returns { userId, pokePetId }
-     * 
-     * Throws NotFoundError if not found.
-     * */
+    // Update pokePet data with `data`.
     static async update(userId, pokePetId, data) {
         const { setCols, values } = sqlForPartialUpdate(
             data,
@@ -146,10 +118,7 @@ class PokePet {
     }
 
 
-    /** Delete pokePet from database; returns undefined.
-     *
-     * Throws NotFoundError if pokePet not found.
-     **/
+    // Delete pokePet from database; returns undefined.
     static async remove(userId, pokePetId) {
         const result = await db.query(
             `DELETE

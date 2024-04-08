@@ -134,7 +134,7 @@ router.get("/:userId", async function (req, res, next) {
       const userPet = await Pet.getAllUserPetsByUserId(req.params.userId);
       return res.json({ userPet });
   } catch (err) {
-      return next(err); // Pass the error to the error handling middleware
+      return next(err); 
   }
 });
 
@@ -177,7 +177,7 @@ router.get("/:userId/:userPetId", async function (req, res, next) {
     const userPet = await Pet.get(req.params.userId, req.params.userPetId);
     return res.json({ userPet });
   } catch (err) {
-    return next(err); // Pass the error to the error handling middleware
+    return next(err); 
   }
 });
 
@@ -213,7 +213,7 @@ router.get("/id/:id", async function (req, res, next) {
     const userPet = await Pet.get(req.params.id);
     return res.json({ userPet });
   } catch (err) {
-    return next(err); // Pass the error to the error handling middleware
+    return next(err); 
   }
 });
 

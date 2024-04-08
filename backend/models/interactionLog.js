@@ -2,19 +2,11 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
 
 /** Related functions for interactions. */
 
 class Interaction {
-    /** Create an interaction (from data), update db, return new interaction data.
-     *
-     * data should be { userId, pokePetId, interactionType }
-     *
-     * Returns { userId, pokePetId, interactionType }
-     *
-     * Throws BadRequestError if interaction already exists in database.
-     **/
+    // Create a new interaction
     static async create({ userId, pokePetId, interactionType }) {
         const duplicateCheck = await db.query(
             `SELECT userId, pokePetId, interactionType
@@ -41,10 +33,7 @@ class Interaction {
         return interaction;
     }
 
-    /** Find all interactions for a user.
-     *
-     * Returns [{ userId, pokePetId, interactionType }, ...]
-     **/
+    /** Find all interactions for a user */
     static async findAll(userId) {
         const interactionRes = await db.query(
             `SELECT userId, pokePetId, interactionType
@@ -56,12 +45,7 @@ class Interaction {
         return interactionRes.rows;
     }
 
-    /** Given a userId, pokePetId, and interactionType, return data about interaction.
-     *
-     * Returns { userId, pokePetId, interactionType }
-     *
-     * Throws NotFoundError if not found.
-     **/
+    /** Find an interaction by its id */
     static async get(userId, pokePetId, interactionType) {
         const interactionRes = await db.query(
             `SELECT userId, pokePetId, interactionType

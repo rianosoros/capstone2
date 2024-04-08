@@ -7,14 +7,7 @@ const { sqlForPartialUpdate } = require("../helpers/sql");
 /** Related functions for pets. */
 
 class Pet {
-    /** Create a pet (from data), update db, return new pet data.
-     *
-     * data should be { userId, pokePetId }
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws BadRequestError if pet already exists in database.
-     **/
+    //Create a pet for a user.
     static async create({ userId, pokePetId }) {
         const duplicateCheck = await db.query(
             `SELECT userid, pokepetid
@@ -40,11 +33,7 @@ class Pet {
         return pet;
     }
 
-    /** Find all pets for a user.
-     *
-     * Returns [{ userId, pokePetId }, ...]
-     **/
-
+    //Find all pets for a user.
     static async findAll(userId) {
         const petRes = await db.query(
             `SELECT userid, pokepetid
@@ -57,12 +46,7 @@ class Pet {
 
     }
 
-    /** Given a userId and pokePetId, return data about pet.
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws NotFoundError if not found.
-     **/
+    // Given a userId and pokePetId, return data about pet.
     static async get(userId, pokePetId) {
         const petRes = await db.query(
             `SELECT userId, pokePetId
@@ -86,23 +70,12 @@ class Pet {
             WHERE userId = $1`,
             [userId]
         );
-        // console.log('petRes:', petRes.rows); // Move the console.log inside the callback
         return petRes.rows;
     }
 
     
 
-    /** Update pet data with `data`.
-     *
-     * This is a "partial update" --- it only changes provided fields.
-     *
-     * data can include: { userId, pokePetId }
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws NotFoundError if not found.
-     */
-
+    // Update pet data with `data`.
     static async update(userId, pokePetId, data) {
         const { setCols, values } = sqlForPartialUpdate(
             data,
@@ -137,10 +110,7 @@ class Pet {
         return pet;
     }
 
-    /** Delete pet from database; returns undefined.
-     *
-     * Throws NotFoundError if pet not found.
-     **/
+    // Delete pet from database; returns undefined.
     static async remove(userId, pokePetId) {
         const result = await db.query(
             `DELETE

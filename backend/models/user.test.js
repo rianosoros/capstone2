@@ -20,7 +20,7 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-/************************************** authenticate */
+/** authenticate */
 
 describe("authenticate", function () {
   test("works", async function () {
@@ -53,7 +53,7 @@ describe("authenticate", function () {
   });
 });
 
-/************************************** register */
+/* register */
 
 describe("register", function () {
   const newUser = {
@@ -106,7 +106,7 @@ describe("register", function () {
   });
 });
 
-/************************************** findAll */
+/* findAll */
 
 describe("findAll", function () {
   test("works", async function () {
@@ -130,7 +130,7 @@ describe("findAll", function () {
   });
 });
 
-/************************************** get */
+/* get */
 
 describe("get", function () {
   test("works", async function () {
@@ -155,7 +155,7 @@ describe("get", function () {
   });
 });
 
-/************************************** update */
+/* update */
 
 describe("update", function () {
   const updateData = {
@@ -211,7 +211,7 @@ describe("update", function () {
   });
 });
 
-/************************************** remove */
+/* remove */
 
 describe("remove", function () {
   test("works", async function () {
@@ -231,7 +231,7 @@ describe("remove", function () {
   });
 });
 
-/************************************** applyToJob */
+/* applyToJob */
 
 describe("applyToJob", function () {
   test("works", async function () {

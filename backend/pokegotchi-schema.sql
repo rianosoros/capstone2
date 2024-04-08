@@ -1,11 +1,12 @@
 -- Create Users table
+-- In a future iteration, I would implement is_admin to default false and add additional admin routes
 CREATE TABLE users (
   ID SERIAL PRIMARY KEY,
   username VARCHAR(25),
   password TEXT NOT NULL,
   email TEXT NOT NULL
     CHECK (position('@' IN email) > 1),
-  is_admin BOOLEAN NOT NULL DEFAULT FALSE
+  is_admin BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 -- Create PokePets table

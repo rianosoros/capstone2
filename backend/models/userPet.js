@@ -1,18 +1,9 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
 
-/** Related functions for pets. */
 class OneUserPet {
 
-    /** Create a pet (from data), update db, return new pet data.
-     *
-     * data should be { userId, pokePetId }
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws BadRequestError if pet already exists in database.
-     **/
+    //Create a pet for a user
     static async create({ userId, pokePetId }) {
         const duplicateCheck = await db.query(
             `SELECT userid, pokepetid
@@ -38,10 +29,7 @@ class OneUserPet {
         return pet;
     }
 
-    /** Find all pets for a user.
-     *
-     * Returns [{ userId, pokePetId }, ...]
-     **/
+    //Find all pets for a user
     static async findAll(userId) {
         const petRes = await db.query(
             `SELECT userid, pokepetid
@@ -53,12 +41,7 @@ class OneUserPet {
         return petRes.rows;
     }
 
-    /** Given a userId and pokePetId, return data about pet.
-     *
-     * Returns { userId }
-     *
-     * Throws NotFoundError if not found.
-     **/
+    //Find a pet by its id
     static async getPetById(petid) {
         console.log('b 63| petid:', petid);
         const petRes = await db.query(
@@ -72,12 +55,21 @@ class OneUserPet {
         return pet;
     }
 
-    /** Delete pet with given userId and pokePetId.
-     *
-     * Returns { userId, pokePetId }
-     *
-     * Throws NotFoundError if pet not found.
-     **/
+    //save a pet interaction
+    static async saveInteraction(pet, petId) {
+        const result = await db.query(
+            `UPDATE userpet
+             SET hunger = $1, happiness = $2, health = $3
+             WHERE id = $4
+             RETURNING id, hunger, happiness, health`,
+            [pet.hunger, pet.happiness, pet.health, petId],
+        );
+        const interaction = result.rows[0];
+        if (!interaction) throw new NotFoundError(`No pet found`);
+        return interaction;
+    }
+
+    //delete a pet
     static async remove(userId, pokePetId) {
         const result = await db.query(
             `DELETE
