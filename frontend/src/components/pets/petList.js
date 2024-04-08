@@ -4,6 +4,7 @@ import { Container, Card, CardBody, CardTitle, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const PetList = () => {
+    const [userId, setUserId] = useState(null);
     const [pets, setPets] = useState([]);
     const [error, setError] = useState(null);
 
@@ -13,6 +14,7 @@ const PetList = () => {
                 const username = localStorage.getItem('username');
                 const currentUser = await TamagotchiApi.getCurrentUser(username);
                 const userId = currentUser.id;
+                setUserId(userId); // Set userId state
                 const res = await TamagotchiApi.getPetsByUserId(userId);
                 setPets(res.userPet); // Update state with the userPet array
             } catch (error) {
@@ -34,9 +36,11 @@ const PetList = () => {
                         <CardTitle tag="h5">{pet.name}</CardTitle>
                         <img src={pet.image} alt={pet.name} />
                         {/* Update Link to include userId */}
-                        <Link to={`/pet/${pet.userId}/${pet.id}`}>
-                            <Button color="primary">View Details</Button>
-                        </Link>
+                        {userId && (
+                            <Link to={`/pet/${userId}/${pet.id}`}>
+                                <Button color="primary">View Details</Button>
+                            </Link>
+                        )}
                     </CardBody>
                 </Card>
             ))}

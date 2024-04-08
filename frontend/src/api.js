@@ -61,8 +61,20 @@ class TamagotchiApi {
         console.error('API Error:', error);
         throw error;
     }
-}
+  }
 
+  //getPetDetails
+  static async getPetDetails(petId) {
+    console.log('API getPetDetails petId:', petId);
+    try {
+        const res = await this.request(`pets/${petId}`);
+        console.log('getPetDetails Response:', res); // Log the response to inspect its structure
+        return res; // Return the response data directly
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
+  }
 
   //get pet by id
   static async getPet(id) {

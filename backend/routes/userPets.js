@@ -138,6 +138,15 @@ router.get("/:userId", async function (req, res, next) {
   }
 });
 
+router.get("/:petId", async function (req, res, next) {
+  try {
+      const pet = await UserPet.getPetById(req.params.petId);
+      return res.json({ pet });
+  } catch (err) {
+      return next(err);
+  }
+});
+
 /**
  * @swagger
  * /userPets/{username}/{userPetId}:
@@ -215,6 +224,7 @@ router.get("/id/:id", async function (req, res, next) {
     return next(err); // Pass the error to the error handling middleware
   }
 });
+
 
 /**
  * @swagger

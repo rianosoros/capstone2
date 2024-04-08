@@ -1,16 +1,26 @@
-// PetDetail.js
-
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // Import useState and useEffect hooks
 import { useParams } from 'react-router-dom';
 import { Card, CardBody, CardTitle, Button } from 'reactstrap';
+import TamagotchiApi from '../../api'; // Import TamagotchiApi module
 
-const PetDetail = ({ pets }) => {
-    const { userId, petId } = useParams();
-    const selectedPet = pets.find(pet => pet.userId === userId && pet.id === petId);
 
-    if (!selectedPet) {
-        return <div>Pet not found</div>;
-    }
+const PetDetail = () => {
+    const [pet, setPet] = useState(null);
+    const { userId, petId } = useParams(); // Get userId and petId from URL params
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function getPetDetails() {
+            try {
+                const petData = await TamagotchiApi.getPetDetails(petId);
+                setPet(petData); // Update state with the pet details
+            } catch (error) {
+                console.error('Error fetching pet details:', error);
+                setError('Error fetching pet details. Please try again later.');
+            }
+        }        
+        getPetDetails();
+    }, [userId, petId]);
 
     const handleFeed = () => {
         console.log('Feed button clicked');
@@ -31,8 +41,8 @@ const PetDetail = ({ pets }) => {
     return (
         <Card className="my-3">
             <CardBody>
-                <CardTitle tag="h5">{selectedPet.name}</CardTitle>
-                <img src={selectedPet.image} alt={selectedPet.name} />
+                <CardTitle tag="h5">{pet ? pet.name : 'Loading...'}</CardTitle>
+                {pet && <img src={pet.image} alt={pet.name} />}
                 {/* Add tamagotchi buttons here */}
                 <Button color="primary" onClick={handleFeed}>Feed</Button>
                 <Button color="primary" onClick={handlePlay}>Play</Button>
