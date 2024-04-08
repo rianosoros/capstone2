@@ -1,5 +1,5 @@
 "use strict";
-
+//STRETCH GOAL: Implement the abandon interaction AND timed interactions
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 
