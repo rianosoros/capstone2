@@ -86,7 +86,7 @@ class Pet {
             WHERE userId = $1`,
             [userId]
         );
-        console.log('petRes:', petRes.rows); // Move the console.log inside the callback
+        // console.log('petRes:', petRes.rows); // Move the console.log inside the callback
         return petRes.rows;
     }
 
@@ -122,6 +122,18 @@ class Pet {
     
         if (!pet) throw new NotFoundError(`No pet: ${pokePetId}`);
     
+        return pet;
+    }
+
+    static async getPetById(petid) {
+        const petRes = await db.query(
+            `SELECT *
+            FROM userpet
+            WHERE pokepetid = $1`,
+            [petid]
+        );
+        const pet = petRes.rows[0];
+        if (!pet) throw new NotFoundError(`No pet found`);
         return pet;
     }
 

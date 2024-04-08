@@ -12,8 +12,10 @@ const PetDetail = () => {
     useEffect(() => {
         async function getPetDetails() {
             try {
-                const petData = await TamagotchiApi.getPetDetails(petId);
-                setPet(petData); // Update state with the pet details
+                console.log('Frontend PetId:', petId); // Log the petId to verify it is being passed correctly
+                const petData = await TamagotchiApi.getPetDetails(parseInt(petId));
+                console.log('Pet data:', petData); // Log the pet data to inspect its structure
+                setPet(petData["pet"]); // Update state with the pet details
             } catch (error) {
                 console.error('Error fetching pet details:', error);
                 setError('Error fetching pet details. Please try again later.');
@@ -22,6 +24,7 @@ const PetDetail = () => {
         getPetDetails();
     }, [userId, petId]);
 
+    //function to handle the feed button click
     const handleFeed = () => {
         console.log('Feed button clicked');
     };

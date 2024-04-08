@@ -55,7 +55,7 @@ class TamagotchiApi {
   static async getPetsByUserId(userId) {
     try {
         const res = await this.request(`pets/${userId}`);
-        console.log('Response:', res); // Log the response to inspect its structure
+        //console.log('Response:', res); // Log the response to inspect its structure
         return res; // Return the response data directly
     } catch (error) {
         console.error('API Error:', error);
@@ -65,10 +65,11 @@ class TamagotchiApi {
 
   //getPetDetails
   static async getPetDetails(petId) {
-    console.log('API getPetDetails petId:', petId);
+    console.log('68| API getPetDetails petId:', petId);
+  
     try {
-        const res = await this.request(`pets/${petId}`);
-        console.log('getPetDetails Response:', res); // Log the response to inspect its structure
+        const res = await this.request(`pet/${petId}`);
+        console.log('api 71| getPetDetails Response:', res); // Log the response to inspect its structure
         return res; // Return the response data directly
     } catch (error) {
         console.error('API Error:', error);

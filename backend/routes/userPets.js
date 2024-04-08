@@ -12,7 +12,7 @@ const express = require("express");
 const jsonschema = require("jsonschema");
 const { BadRequestError } = require("../expressError");
 const { ensureAdmin } = require("../middleware/auth");
-const UserPet = require("../models/pet");
+const Pet = require("../models/pet");
 
 const userPetNewSchema = require("../schemas/petNew.json");
 const userPetUpdateSchema = require("../schemas/petUpdate.json");
@@ -59,7 +59,7 @@ router.post("/createUserPet", ensureAdmin, async function (req, res, next) {
     throw new BadRequestError(errs);
   }
 
-  const userPet = await UserPet.create(req.body);
+  const userPet = await Pet.create(req.body);
   return res.status(201).json({ userPet });
 });
 
@@ -87,7 +87,7 @@ router.post("/createUserPet", ensureAdmin, async function (req, res, next) {
  *         description: Internal server error.
  */
 router.get("/", async function (req, res, next) {
-  const userPets = await UserPet.findAll();
+  const userPets = await Pet.findAll();
   return res.json({ userPets });
 });
 
@@ -131,21 +131,13 @@ router.get("/", async function (req, res, next) {
  */
 router.get("/:userId", async function (req, res, next) {
   try {
-      const userPet = await UserPet.getAllUserPetsByUserId(req.params.userId);
+      const userPet = await Pet.getAllUserPetsByUserId(req.params.userId);
       return res.json({ userPet });
   } catch (err) {
       return next(err); // Pass the error to the error handling middleware
   }
 });
 
-router.get("/:petId", async function (req, res, next) {
-  try {
-      const pet = await UserPet.getPetById(req.params.petId);
-      return res.json({ pet });
-  } catch (err) {
-      return next(err);
-  }
-});
 
 /**
  * @swagger
@@ -182,7 +174,7 @@ router.get("/:petId", async function (req, res, next) {
  */
 router.get("/:userId/:userPetId", async function (req, res, next) {
   try {
-    const userPet = await UserPet.get(req.params.userId, req.params.userPetId);
+    const userPet = await Pet.get(req.params.userId, req.params.userPetId);
     return res.json({ userPet });
   } catch (err) {
     return next(err); // Pass the error to the error handling middleware
@@ -218,7 +210,7 @@ router.get("/:userId/:userPetId", async function (req, res, next) {
  */
 router.get("/id/:id", async function (req, res, next) {
   try {
-    const userPet = await UserPet.get(req.params.id);
+    const userPet = await Pet.get(req.params.id);
     return res.json({ userPet });
   } catch (err) {
     return next(err); // Pass the error to the error handling middleware
@@ -272,7 +264,7 @@ router.patch("/:id", ensureAdmin, async function (req, res, next) {
     throw new BadRequestError(errs);
   }
 
-  const userPet = await UserPet.update(req.params.id, req.body);
+  const userPet = await Pet.update(req.params.id, req.body);
   return res.json({ userPet });
 });
 
@@ -312,7 +304,7 @@ router.patch("/:id", ensureAdmin, async function (req, res, next) {
  *         description: Internal server error.
  */
 router.delete("/:id", ensureAdmin, async function (req, res, next) {
-  await UserPet.remove(req.params.id);
+  await Pet.remove(req.params.id);
   return res.json({ deleted: req.params.id });
 });
 

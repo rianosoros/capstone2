@@ -12,6 +12,7 @@ const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
 const petRoutes = require("./routes/userPets");
+const onePetRoutes = require("./routes/userPet");
 const pokePetRoutes = require("./routes/pokePets");
 const interactionRoutes = require("./routes/interactions");
 const morgan = require("morgan");
@@ -46,6 +47,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/pets", petRoutes);
+app.use("/pet", onePetRoutes);
 app.use("/pokePets", pokePetRoutes);
 app.use("/interactions", interactionRoutes);
 
