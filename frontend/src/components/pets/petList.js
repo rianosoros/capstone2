@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import TamagotchiApi from '../../api';
-import { Container, Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+import { Container, Card, CardBody, CardTitle, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const PetList = () => {
-    const [pet, setPet] = useState([]);
+    const [pets, setPets] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function getUserPets() {
             try {
                 const username = localStorage.getItem('username');
-                const res = await TamagotchiApi.getUserPets(username);
-                setPet(res);
-
+                const currentUser = await TamagotchiApi.getCurrentUser(username);
+                const userId = currentUser.id;
+                const res = await TamagotchiApi.getPetsByUserId(userId);
+                setPets(res.userPet); // Update state with the userPet array
             } catch (error) {
                 console.error('Error fetching pets:', error);
+                setError('Error fetching pets. Please try again later.');
             }
         }
         getUserPets();
@@ -23,17 +27,19 @@ const PetList = () => {
         <Container>
             <h1 className="my-4">Pets</h1>
             <Button href="/"> Back </Button>
-            {pet &&
-                Array.isArray(pet) &&
-                pet.map((pet) => (
-                    <Card key={pet.id} className="my-3">
-                        <CardBody>
-                            <CardTitle tag="h5">{pet.name}</CardTitle>
-                            <CardText tag="h5">{pet.type}</CardText>
-                        </CardBody>
-                    </Card>
-                ))}
-
+            {error && <p>{error}</p>}
+            {pets.map((pet) => (
+                <Card key={pet.id} className="my-3">
+                    <CardBody>
+                        <CardTitle tag="h5">{pet.name}</CardTitle>
+                        <img src={pet.image} alt={pet.name} />
+                        {/* Update Link to include userId */}
+                        <Link to={`/pet/${pet.userId}/${pet.id}`}>
+                            <Button color="primary">View Details</Button>
+                        </Link>
+                    </CardBody>
+                </Card>
+            ))}
         </Container>
     );
 };

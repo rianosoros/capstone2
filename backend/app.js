@@ -5,7 +5,7 @@
 const express = require("express");
 const cors = require("cors");
 const swaggerUi = require('swagger-ui-express');
-
+const swaggerJsDoc = require('swagger-jsdoc');
 const { NotFoundError } = require("./expressError");
 
 const { authenticateJWT } = require("./middleware/auth");
@@ -14,9 +14,26 @@ const userRoutes = require("./routes/users");
 const petRoutes = require("./routes/userPets");
 const pokePetRoutes = require("./routes/pokePets");
 const interactionRoutes = require("./routes/interactions");
-const swaggerDocs = require('./swagger.js');
-
 const morgan = require("morgan");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Pokegotchi API",
+      version: "1.0.0",
+      description: "A simple Express library for managing users and pets",
+    },
+    servers: [
+      {
+        url: "http://localhost:3001",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const spec = swaggerJsDoc(options);
 
 const app = express();
 
@@ -24,7 +41,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
 
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);

@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Button } from "reactstrap";
+import TamagotchiApi from "../../api";
 
 function Home() {
     const currentUser = localStorage.getItem("username");
-    
+    const userId = TamagotchiApi.getCurrentUser(currentUser).id;
     return (
         <div className="Homepage">
             <Container className="text-center">
@@ -24,7 +25,7 @@ function Home() {
                             <Button tag={Link} to={`/profile/${currentUser}`} color="primary" className="font-weight-bold mr-3">
                                 Profile
                             </Button>
-                            <Button tag={Link} to={`/pets/${currentUser}`} color="primary" className="font-weight-bold">
+                            <Button tag={Link} to={`/pet/${currentUser}`} color="primary" className="font-weight-bold">
                                 My Pets
                             </Button>
                             <Button tag={Link} to={`/pokePets`} color="primary" className="font-weight-bold ml-3">

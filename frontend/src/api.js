@@ -22,15 +22,12 @@ class TamagotchiApi {
 }
 
 
-
-
   // Individual API routes
 
   //adopt pokePet (make user the owner of the pokePet by adding pet to userPets table) send the data to the backend
   static async adoptPokePet(data) {
-    console.log('31| API attempting to adopt pokePet:', data);
+    console.log('29| API attempting to adopt pokePet:', data);
     
-
     try {
       let res = await this.request(`pokePets/adopt`, data, "post");
       console.log('33| API response after adopting pokePet:', res);
@@ -48,12 +45,24 @@ class TamagotchiApi {
     }
   }  
 
-
   //get the current user by username
   static async getCurrentUser(username) {
     let res = await this.request(`users/${username}`);
     return res.user;
   }
+
+  //get all pets by userId
+  static async getPetsByUserId(userId) {
+    try {
+        const res = await this.request(`pets/${userId}`);
+        console.log('Response:', res); // Log the response to inspect its structure
+        return res; // Return the response data directly
+    } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+    }
+}
+
 
   //get pet by id
   static async getPet(id) {
@@ -65,18 +74,6 @@ class TamagotchiApi {
   static async getPokePet(id) {
     let res = await this.request(`pokePets/${id}`);
     return res.pokePets;
-  }
-
-  //get userPets by user
-  static async getUserPetsById(userId, userPetId) {
-    let res = await this.request(`${userId}/${userPetId}`);
-    return res.userPets;
-  }
-  
-  //get a pet by usename
-  static async getUserPets(username) {
-    let res = await this.request(`pet/${username}`);
-    return res.pets;
   }
 
   //get all pokePets

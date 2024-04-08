@@ -1,6 +1,12 @@
 "use strict";
 
-/** Routes for authentication. */
+/**
+ * Routes for authentication.
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: Endpoints for user authentication and registration
+ */
 
 const jsonschema = require("jsonschema");
 
@@ -12,13 +18,35 @@ const userAuthSchema = require("../schemas/userAuth.json");
 const userRegisterSchema = require("../schemas/userRegister.json");
 const { BadRequestError } = require("../expressError");
 
-/** POST /auth/token:  { username, password } => { token }
- *
- * Returns JWT token which can be used to authenticate further requests.
- *
- * Authorization required: none
+/**
+ * @swagger
+ * /auth/token:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Generates a JWT token for authentication.
+ *     description: Returns a JWT token if the provided username and password are valid.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserAuth'
+ *     responses:
+ *       '200':
+ *         description: JWT token generated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       '400':
+ *         description: Bad request. Invalid username or password.
+ *       '500':
+ *         description: Internal server error.
  */
-
 router.post("/token", async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userAuthSchema);
@@ -36,16 +64,35 @@ router.post("/token", async function (req, res, next) {
   }
 });
 
-
-/** POST /auth/register:   { user } => { token }
- *
- * user must include { username, password, email }
- *
- * Returns JWT token which can be used to authenticate further requests.
- *
- * Authorization required: none
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     tags:
+ *       - Authentication
+ *     summary: Registers a new user.
+ *     description: Creates a new user account with the provided username, password, and email.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserRegister'
+ *     responses:
+ *       '201':
+ *         description: User registered successfully. Returns a JWT token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *       '400':
+ *         description: Bad request. Invalid user registration data.
+ *       '500':
+ *         description: Internal server error.
  */
-
 router.post("/register", async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userRegisterSchema);
@@ -61,6 +108,5 @@ router.post("/register", async function (req, res, next) {
     return next(err);
   }
 });
-
 
 module.exports = router;

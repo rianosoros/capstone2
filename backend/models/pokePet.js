@@ -52,26 +52,26 @@ class PokePet {
         return pokePetRes.rows;
     }
 
-// Adopt a pokePet: update db, return updated pokePet.
-// Returns { userId, pokePetId, name, image }
-// Throws NotFoundError if not found.
-static async adopt(data) {
-    console.log('M 59| adopt data:', data);
-    try {
-      const result = await db.query(
-        `INSERT INTO userpet (userid, pokepetid, name, image)
-         SELECT $1, $2, $3, $4
-         RETURNING userid, pokepetid, name, image;`,
-        [data.userid, data.pokepetid, data.name, data.image]
-      );
-      const pokePet = result.rows[0];
-      if (!pokePet) throw new NotFoundError(`No pokePet: ${userId}, ${pokePetId}`);
-      return pokePet;
-    } catch (error) {
-      console.error('Error adopting pokePet:', error);
-      throw new Error('Error adopting pokePet');
+    // Adopt a pokePet: update db, return updated pokePet.
+    // Returns { userId, pokePetId, name, image }
+    // Throws NotFoundError if not found.
+    static async adopt(data) {
+        console.log('M 59| adopt data:', data);
+        try {
+        const result = await db.query(
+            `INSERT INTO userpet (userid, pokepetid, name, image)
+            SELECT $1, $2, $3, $4
+            RETURNING userid, pokepetid, name, image;`,
+            [data.userid, data.pokepetid, data.name, data.image]
+        );
+        const pokePet = result.rows[0];
+        if (!pokePet) throw new NotFoundError(`No pokePet: ${userId}, ${pokePetId}`);
+        return pokePet;
+        } catch (error) {
+        console.error('Error adopting pokePet:', error);
+        throw new Error('Error adopting pokePet');
+        }
     }
-  }
   
     /** Find all pokePets
      *
@@ -85,6 +85,8 @@ static async adopt(data) {
         );
         return pokePetRes.rows;
     }
+
+    
 
     /** Given a userId and pokePetId, return data about pokePet.
      *

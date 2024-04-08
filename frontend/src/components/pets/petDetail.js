@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from 'react';
+// PetDetail.js
+
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import TamagotchiApi from '../../api'; 
-import PetCard from './petCard';
-import { Container, Card, CardBody, Button, Spinner } from 'reactstrap';
+import { Card, CardBody, CardTitle, Button } from 'reactstrap';
 
-function PetDetail() {
-    const { handle } = useParams();
-    const [pet, setPet] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+const PetDetail = ({ pets }) => {
+    const { userId, petId } = useParams();
+    const selectedPet = pets.find(pet => pet.userId === userId && pet.id === petId);
 
-    useEffect(() => {
-        async function getPet() {
-            try {
-                let res = await TamagotchiApi.getPet(handle);
-                setPet(res);
-            } catch (error) {
-                console.error("Error catching pokemon! :", error);
-            } finally {
-                setIsLoading(false);
-            }
+    if (!selectedPet) {
+        return <div>Pet not found</div>;
+    }
 
-        }
-        getPet();
-    }, [handle]);
+    const handleFeed = () => {
+        console.log('Feed button clicked');
+    };
+
+    const handlePlay = () => {
+        console.log('Play button clicked');
+    };
+
+    const handleScold = () => {
+        console.log('Scold button clicked');
+    };
+
+    const handleAbandon = () => {
+        console.log('Abandon button clicked');
+    };
 
     return (
-        <Container>
-            {isLoading ? (
-                <Spinner color="primary" />
-            ) : (
-                <>
-                    <h1 className="my-4">{pet.name}</h1>
-                    <Button href="/pet"> Back </Button>
-                    <Card className="my-3">   
-                        <CardBody>
-                            <PetCard pet={pet} />
-                        </CardBody>
-                    </Card>
-                </>
-            )}
-        </Container>
+        <Card className="my-3">
+            <CardBody>
+                <CardTitle tag="h5">{selectedPet.name}</CardTitle>
+                <img src={selectedPet.image} alt={selectedPet.name} />
+                {/* Add tamagotchi buttons here */}
+                <Button color="primary" onClick={handleFeed}>Feed</Button>
+                <Button color="primary" onClick={handlePlay}>Play</Button>
+                <Button color="primary" onClick={handleScold}>Scold</Button>
+                <Button color="primary" onClick={handleAbandon}>Abandon</Button>
+            </CardBody>
+        </Card>
     );
-}
+};
 
 export default PetDetail;

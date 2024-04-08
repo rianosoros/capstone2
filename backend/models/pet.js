@@ -17,9 +17,9 @@ class Pet {
      **/
     static async create({ userId, pokePetId }) {
         const duplicateCheck = await db.query(
-            `SELECT userId, pokePetId
-             FROM userPet
-             WHERE userId = $1 AND pokePetId = $2`,
+            `SELECT userid, pokepetid
+             FROM userpet
+             WHERE userid = $1 AND pokepetid = $2`,
             [userId, pokePetId],
         );
     
@@ -27,9 +27,9 @@ class Pet {
         throw new BadRequestError(`Pet already exists for user: ${userId}`);
     
         const result = await db.query(
-            `INSERT INTO userPet (userId, pokePetId)
+            `INSERT INTO userpet (userid, pokepetid)
              VALUES ($1, $2)
-             RETURNING userId, pokePetId`,
+             RETURNING userid, pokepetid`,
             [
             userId,
             pokePetId,
@@ -47,9 +47,9 @@ class Pet {
 
     static async findAll(userId) {
         const petRes = await db.query(
-            `SELECT userId, pokePetId
-             FROM userPet
-             WHERE userId = $1`,
+            `SELECT userid, pokepetid
+             FROM userpet
+             WHERE userid = $1`,
             [userId],
         );
     
@@ -79,14 +79,14 @@ class Pet {
     }    
     
     // find userPet by userId
-    static async findUserPetByUserId(userId) {
+    static async getAllUserPetsByUserId(userId) {
         const petRes = await db.query(
             `SELECT *
-             FROM pokePets
-             WHERE userId = $1
-             ORDER BY Name`,
-            [userId],
+            FROM userPet
+            WHERE userId = $1`,
+            [userId]
         );
+        console.log('petRes:', petRes.rows); // Move the console.log inside the callback
         return petRes.rows;
     }
 

@@ -39,8 +39,9 @@ function Routes({ login, register }) {
 
       {/* Private routes */}
       <PrivateRoute exact path="/pet"> <PetDetail /> </PrivateRoute>
-      <PrivateRoute exact path="/pet/:username"> <PetList /> </PrivateRoute>
+      <PrivateRoute exact path="/pet/:userId"> <PetList /> </PrivateRoute>
       <PrivateRoute exact path="/pokePets"> <PokePetList /> </PrivateRoute>
+      <PrivateRoute exact path="/pet/:userId/:petId"> <PetDetail /> </PrivateRoute>
       {/* Pass the username as a parameter to the profile route */}
       <PrivateRoute exact path="/profile/:username"> <Profile /> </PrivateRoute>
 
