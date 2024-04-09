@@ -52,20 +52,23 @@ return (
       <h1 className="my-4">PokePets</h1>
       <Button href="/">Back</Button>
       <PokePetSearch onSearch={handleSearch} />
-      {pokePetSearchResults &&
-        Array.isArray(pokePetSearchResults) &&
-        pokePetSearchResults.map((pokePet) => (
-          <Card key={pokePet.id} className="my-3">
-            <CardBody>
-              <Link to={`/pokePets/${pokePet.handle}`} className="text-decoration-none">
-                <CardTitle tag="h5">{pokePet.name}</CardTitle>
-                <img src={pokePet.image} alt={pokePet.name} />
-                <CardText>{pokePet.type}</CardText>
-              </Link>
-              <Button onClick={() => handleAdopt(pokePet)}>Adopt</Button>
-            </CardBody>
-          </Card>
-        ))}
+      <div className='pet-grid'>
+        {pokePetSearchResults &&
+          Array.isArray(pokePetSearchResults) &&
+          pokePetSearchResults.map((pokePet) => (
+            <Card key={pokePet.id} className="my-3 poke-cards">
+              <CardBody>
+                <Link to={`/pokePets/${pokePet.handle}`} className="text-decoration-none">
+                  <CardTitle tag="h5">{pokePet.name}</CardTitle>
+                  <img src={pokePet.image} alt={pokePet.name} />
+                  <CardText>{pokePet.type}</CardText>
+                </Link>
+                <Button onClick={() => handleAdopt(pokePet)}>Adopt</Button>
+              </CardBody>
+            </Card>
+          ))}        
+      </div>
+
     </Container>
   );
 };

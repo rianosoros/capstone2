@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import TamagotchiApi from "../../api";
+import { Card, CardBody, CardTitle, Form, Label, Input, Container } from "reactstrap";
 
 function Register() {
     const history = useHistory();
@@ -28,54 +29,51 @@ function Register() {
     }
     
     return (
-        <div className="register">
-            <h1>Register</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label className="form-label">Username</label>
-                    <input
-                        name="username"
-                        className="form-control"
-                        value={formData.username}
-                        onChange={handleChange}
-                        autoComplete="username"
-                        required
-                    />
-                </div>            
-                <div className="form-group">
-                    <label className="form-label">Email</label>
-                    <input
-                        name="email"
-                        className="form-control"
-                        value={formData.email}
-                        onChange={handleChange}
-                        autoComplete="email"
-                        required={true}
-                    />
-                </div>
-                <div className="form-group">
-                    <label className="form-label">Password</label>
-                    <input
-                        name="password"
-                        type="password"
-                        className="form-control"
-                        value={formData.password}
-                        onChange={handleChange}
-                        autoComplete="current-password"
-                        required={true}
-                    />
-                </div>
-
-            {errors.length > 0 && (
-                    <div className="alert alert-danger">
-                        {errors.map((error, index) => (
-                            <p key={index}>{error}</p>
-                        ))}
-                    </div>
-                )}
-                <button className="btn btn-primary">Submit</button>
-            </form>
-        </div>
+        <Container className='card-center'>
+            <Card>
+                <CardBody>
+                    <CardTitle tag="h5">Register</CardTitle>
+                    <Form onSubmit={handleSubmit}>
+                        <Label for="username">Username</Label>
+                        <Input
+                            type="text"
+                            name="username"
+                            id="username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Label for="email">Email</Label>
+                        <Input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <Label for="password">Password</Label>
+                        <Input
+                            type="password"
+                            name="password"
+                            id="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        {errors.length > 0 && (
+                            <div className="alert alert-danger">
+                                {errors.map((error, index) => (
+                                    <p key={index}>{error}</p>
+                                ))}
+                            </div>
+                        )}
+                        <button className="blue-button">Submit</button>
+                    </Form>
+                </CardBody>
+            </Card>
+        </Container>
+        
     );
 }
 

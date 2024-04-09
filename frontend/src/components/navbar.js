@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { Navbar, Nav, Button } from "reactstrap";
+import { Link, NavLink } from "react-router-dom";
+import { Nav, Button, NavItem } from "reactstrap";
 import "../styles/navbar.css";
+import logo from './images/pokegotchiOneLine.png'
+import githubLogo from './images/Github.png'
+import linkedinLogo from './images/LinkedIn.png'
 
 function NavBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,27 +34,39 @@ function NavBar() {
 
   return (
     <div>
-      <Navbar expand="md">
-        <NavLink to="/" className="navbar-brand">
-          Pokegotchi Central
-        </NavLink>
-        <Nav className="ml-auto">
+      <Nav expand="md" justified>
+        <NavItem>
+          <Link to="/" className="navbar-brand">
+            <img
+              src={logo}
+              alt="Pokegotchi Central Logo"
+              className="nav-logo"
+            />
+          </Link>
+        </NavItem>
+        
           {isLoggedIn ? (
-            <>
+            <NavItem>
               <NavLink to={`/pet/${currentUser}`} className="nav-link">Owned Pets</NavLink>
               <NavLink to="/pokePets" className="nav-link">Poke Pets</NavLink>
               {/* Use currentUser state to generate the profile link */}
               <NavLink to={`/profile/${currentUser}`} className="nav-link">Profile</NavLink>
-              <Button className="logout-button" color="link" onClick={handleLogout}>Logout</Button>
-            </>
+              <button className="yellow-button" color="link" onClick={handleLogout}>Logout</button>
+            </NavItem>
           ) : (
             <>
-              <NavLink to="/register" className="nav-link">Sign Up</NavLink>
-              <NavLink to="/login" className="nav-link">Login</NavLink>
+              <NavItem>
+                <Link to="/register" className="nav-link">Sign Up</Link>
+                <Link to="/login" className="nav-link">Login</Link>
+              </NavItem>
+
+              <NavItem>
+                <a href="https://github.com/rianosoros"><img src={githubLogo}/></a>
+                <a href="https://www.linkedin.com/in/rian-gillard/"><img src={linkedinLogo}/></a>
+              </NavItem>
             </>
           )}
-        </Nav>
-      </Navbar>
+      </Nav>
     </div>
   );
 }

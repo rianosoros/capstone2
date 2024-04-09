@@ -9,6 +9,7 @@ body {
   sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
 }
 
 code {
@@ -26,3 +27,66 @@ button:active {
 label {
   font-weight: bold;
 }
+
+.pet-img {
+  width: 20%;
+  height: 20%;
+}
+
+.blue-button {
+  background-color: #0075BE;
+  color: white;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.blue-button:hover {
+  background-color: #004a79;
+}
+
+.card-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  width: 50%;
+  height: 50%;
+}
+
+.card-body, .login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.button-row {
+  display: flex;
+  gap: 20px;
+}
+
+h1.my-4 {
+  color: white;
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
+  padding: 30px 0;
+}
+
+.poke-cards {
+  width: 75%;
+  height: 100%;
+}
+
+

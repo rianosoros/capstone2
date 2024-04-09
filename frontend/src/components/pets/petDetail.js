@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, CardBody, CardTitle, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, Container, Row } from 'reactstrap';
 import TamagotchiApi from '../../api'; 
 
 
@@ -43,21 +43,26 @@ const PetDetail = () => {
     };
 
     return (
-        <Card className="my-3">
-            <CardBody>
-                <CardTitle tag="h5">{pet ? pet.name : 'Loading...'}</CardTitle>
-                {pet && <img src={pet.image} alt={pet.name} />}
-                {error && <p>{error}</p>}
-                <h5>Stats</h5>
-                <p>Hunger: {hunger}  |  Happiness: {happiness}  |  Health: {health}</p>
-                {/* Add tamagotchi buttons here */}
-                <Button color="primary" onClick={() => handleInteraction('feed')}>Feed</Button>
-                <Button color="primary" onClick={() => handleInteraction('play')}>Play</Button>
-                <Button color="primary" onClick={() => handleInteraction('scold')}>Scold</Button>
-                {/* STRETCH GOAL */}
-                {/* <Button color="primary" onClick={() => handleInteraction('abandon')}>Abandon</Button> */}
-            </CardBody>
-        </Card>
+        <Container className="card-center">
+            <Card className="my-3">
+                <CardBody>
+                    <CardTitle tag="h3">{pet ? pet.name : 'Loading...'}</CardTitle>
+                    {pet && <img src={pet.image} alt={pet.name} className="pet-img"/>}
+                    {error && <p>{error}</p>}
+                    <h4>Stats</h4>
+                    <h5>Hunger: {hunger}  |  Happiness: {happiness}  |  Health: {health}</h5>
+                    {/* Add tamagotchi buttons here */}
+                    <Row className='button-row'>
+                        <button className="blue-button" onClick={() => handleInteraction('feed')}>Feed</button>
+                        <button className="blue-button" onClick={() => handleInteraction('play')}>Play</button>
+                        <button className="blue-button" onClick={() => handleInteraction('scold')}>Scold</button>
+                    </Row>
+                    {/* STRETCH GOAL */}
+                    {/* <Button color="primary" onClick={() => handleInteraction('abandon')}>Abandon</Button> */}
+                </CardBody>
+            </Card>
+        </Container>
+        
     );
 };
 

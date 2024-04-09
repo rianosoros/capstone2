@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TamagotchiApi from '../../api';
-import { Container, Card, CardBody, CardTitle, Button } from 'reactstrap';
+import { Container, Card, CardBody, CardTitle } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 const PetList = () => {
@@ -28,21 +28,24 @@ const PetList = () => {
     return (
         <Container>
             <h1 className="my-4">Pets</h1>
-            <Button href="/"> Back </Button>
+            <button className="blue-button" href="/"> Back </button>
             {error && <p>{error}</p>}
-            {pets.map((pet) => (
-                <Card key={pet.id} className="my-3">
-                    <CardBody>
-                        <CardTitle tag="h5">{pet.name}</CardTitle>
-                        <img src={pet.image} alt={pet.name} />
-                        {userId && (
-                            <Link to={`/pet/${userId}/${pet.id}`}>
-                                <Button color="primary">View Details</Button>
-                            </Link>
-                        )}
-                    </CardBody>
-                </Card>
-            ))}
+
+            <div className='pet-grid'>
+                {pets.map((pet) => (
+                    <Card key={pet.id} className="poke-cards">
+                        <CardBody>
+                            <CardTitle tag="h5">{pet.name}</CardTitle>
+                            <img src={pet.image} alt={pet.name} />
+                            {userId && (
+                                <Link to={`/pet/${userId}/${pet.id}`}>
+                                    <button className="blue-button">Play</button>
+                                </Link>
+                            )}
+                        </CardBody>
+                    </Card>
+                ))}
+            </div>
         </Container>
     );
 };

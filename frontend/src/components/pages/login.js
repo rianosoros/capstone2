@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Card, CardBody, CardTitle, Form, Label, Input, Container, Row, Col} from "reactstrap";
 
 function Login({ login }) {
   const history = useHistory();
@@ -43,49 +44,58 @@ function Login({ login }) {
   }
 
   return (
-    <div className="Login">
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label className="form-label">Username</label>
-          <input
-            name="username"
-            className="form-control"
-            value={formData.username}
-            onChange={handleChange}
-            autoComplete="username"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label className="form-label">Password</label>
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            value={formData.password}
-            onChange={handleChange}
-            autoComplete="current-password"
-            required
-          />
-        </div>
-        {loading ? (
-          <div className="text-center">
-            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        ) : (
-          <button className="btn btn-primary" type="submit">Submit</button>
-        )}
-        {errors.length > 0 && (
-          <div className="alert alert-danger mt-3">
-            {errors.map((error, index) => (
-              <p key={index}>{error}</p>
-            ))}
-          </div>
-        )}
-      </form>
-    </div>
+    <Container className='card-center'>
+      <Card>
+        <CardBody>
+          <CardTitle tag="h2">Login</CardTitle>
+          <Form onSubmit={handleSubmit} className="login-form">
+              <Row>
+                <Label for="username" tag="h4">Username</Label>
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  size="lg"
+                  required
+                />
+              </Row>
+              
+              <Row>
+                <Label for="password" tag="h4">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  size="lg"
+                  required
+                />
+              </Row>
+
+            {loading ? (
+              <button className="blue-button" disabled>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </button>
+            ) : (
+              <button className="blue-button">Submit</button>
+            )}
+            {errors.length > 0 && (
+              <div className="alert alert-danger mt-3">
+                {errors.map((error, index) => (
+                  <p key={index}>{error}</p>
+                ))}
+              </div>
+            )}
+
+          </Form>
+        </CardBody>
+      </Card>
+    </Container>
+    
   );
 }
 
