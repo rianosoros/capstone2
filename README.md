@@ -1,5 +1,6 @@
 # Capstone 2: Pokegotchi Central
 
+# Note: Branch 'newMain' contains the most recent update.
 ### Current Schema Design:
 
 ![image of schema](image.png)
